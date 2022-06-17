@@ -13,10 +13,13 @@ class Question(models.Model):
 
     # def was_published_recently(self):
     #     return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+    # this intially checks for if the self.pub date is bigger or later  than time from now - 1 day
+    # however this creates a bug for us because if you post with future pub date, it will still return true even if its in the future
     
     def was_published_recently(self):
         now = timezone.now()
         return now - datetime.timedelta(days=1) <= self.pub_date <= now
+    # now this will check if its in within the 1 day frame from now but ALSO if its in the past.
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
